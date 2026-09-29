@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>ডিপোজিট ও উইথড্র সিস্টেম</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f9; padding: 20px; }
+        .box { background: #fff; padding: 20px; max-width: 380px; margin: auto; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid #ddd; }
+        .tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; font-weight: bold; color: #555; }
+        .tab.active { border-bottom: 3px solid #28a745; color: #28a745; }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        
+        /* পেমেন্ট নোটিশ বক্সের স্টাইল */
+        .notice-box { background: #e8f5e9; border: 1px dashed #28a745; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; color: #2e7d32; line-height: 1.6; }
+        .notice-box strong { color: #d32f2f; }
+        .notice-box a { color: #0088cc; font-weight: bold; text-decoration: none; }
+
+        /* উইথড্র অ্যাড্রেস বক্সের স্টাইল */
+        .address-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 14px; color: #856404; font-weight: bold; text-align: center; }
+
+        label { font-weight: bold; display: block; margin-top: 10px; font-size: 14px; }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .dep-btn { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 16px; font-weight: bold; }
+        .wit-btn { background: #d9534f; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 16px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <!-- ট্যাব অপশন -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('deposit')">ডিপোজিট</div>
+            <div class="tab" onclick="switchTab('withdraw')">উইথড্র</div>
+        </div>
+
+        <!-- ডিপোজিট ফর্ম -->
+        <div id="depositSection" class="form-section active">
+            <h2 style="color: #28a745; text-align: center; margin-top: 0;">ডিপোজিট ফর্ম</h2>
+            
+            <div class="notice-box">
+                📌 <b>নিয়মাবলী:</b> নিচের নাম্বারে টাকা পাঠিয়ে সঠিক তথ্য দিন। (সর্বনিম্ন ৫০ টাকা)<br>
+                👉 বিকাশ (Personal): <b>01943559850</b><br>
+                👉 নগদ (Personal): <b>01943559850</b><br>
+                👉 রকেট (Personal): <b>01943559850</b><br>
+                💬 যোগাযোগ: <a href="https://t.me/MUMIN66397" target="_blank">@MUMIN66397</a>
+            </div>
+
+            <form id="depositForm">
+                <label>সাইট নির্বাচন করুন:</label>
+                <select id="depSite">
+                    <option>1Xbet</option>
+                    <option>Melbet</option>
+                    <option>Linebet</option>
+                </select>
+
+                <label>গেমের আইডি (Game ID):</label>
+                <input type="text" id="depGameId" placeholder="যেমন: 12345678" required>
+
+                <label>আপনার মোবাইল নাম্বার:</label>
+                <input type="tel" id="depPhone" placeholder="017XXXXXXXX" required>
+
+                <label>পেমেন্ট মাধ্যম:</label>
+                <select id="depMethod">
+                    <option>বিকাশ</option>
+                    <option>নগদ</option>
+                    <option>রকেট</option>
+                </select>
+
+                <label>টাকার পরিমাণ (সর্বনিম্ন ৫০):</label>
+                <input type="number" id="depAmount" min="50" placeholder="কমপক্ষে ৫০ টাকা লিখুন" required>
+
+                <label>ট্রানজেকশন আইডি (TrxID):</label>
+                <input type="text" id="depTrxId" placeholder="TrxID দিন" required>
+
+                <button type="submit" class="dep-btn">ডিপোজিট অনুরোধ পাঠান</button>
+            </form>
+        </div>
+
+        <!-- উইথড্র ফর্ম -->
+        <div id="withdrawSection" class="form-section">
+            <h2 style="color: #d9534f; text-align: center; margin-top: 0;">উইথড্র ফর্ম</h2>
+            
+            <div class="notice-box" style="background: #ffebee; border-color: #d9534f; color: #c62828;">
+                📌 <b>উইথড্র নিয়ম:</b> সর্বনিম্ন উত্তোলনের পরিমাণ ১৫০ টাকা।<br>
+                💬 কোনো সমস্যা হলে যোগাযোগ করুন: <a href="https://t.me/MUMIN66397" target="_blank" style="color: #c62828;">@MUMIN66397</a>
+            </div>
+
+            <form id="withdrawForm">
+                <label>সাইট নির্বাচন করুন:</label>
+                <select id="witSite" onchange="updateWithdrawAddress()">
+                    <option value="1Xbet">1Xbet</option>
+                    <option value="Melbet">Melbet</option>
+                    <option value="Linebet">Linebet</option>
+                </select>
+
+                <!-- ড্রেস বা অ্যাড্রেস শো করার বক্স -->
+                <div class="address-box" id="displayAddress">
+                    📍 তোলার অ্যাড্রেস: Chittagong - 11 miles
+                </div>
+
+                <label>টাকা তোলার কোড (Withdraw Code):</label>
+                <input type="text" id="witCode" placeholder="কোডটি এখানে দিন" required>
+
+                <label>যে নাম্বারে টাকা নেবেন:</label>
+                <input type="tel" id="witPhone" placeholder="017XXXXXXXX" required>
+
+                <label>পেমেন্ট মাধ্যম:</label>
+                <select id="witMethod">
+                    <option>বিকাশ</option>
+                    <option>নগদ</option>
+                    <option>রকেট</option>
+                </select>
+
+                <label>টাকার পরিমাণ (সর্বনিম্ন ১৫০):</label>
+                <input type="number" id="witAmount" min="150" placeholder="কমপক্ষে ১৫০ টাকা লিখুন" required>
+
+                <button type="submit" class="wit-btn">উইথড্র অনুরোধ পাঠান</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+
+            if(tabName === 'deposit') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('depositSection').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('withdrawSection').classList.add('active');
+            }
+        }
+
+        // সাইট অনুযায়ী অ্যাড্রেস পরিবর্তন করার ফাংশন
+        function updateWithdrawAddress() {
+            const site = document.getElementById('witSite').value;
+            const addressBox = document.getElementById('displayAddress');
+
+            if(site === '1Xbet') {
+                addressBox.innerHTML = "📍 তোলার অ্যাড্রেস: Chittagong - 11 miles";
+            } else if(site === 'Melbet') {
+                addressBox.innerHTML = "📍 তোলার অ্যাড্রেস: Chittagong - #11 miles";
+            } else if(site === 'Linebet') {
+                addressBox.innerHTML = "📍 তোলার অ্যাড্রেস: Chittagong - Chittagong Hathazari";
+            }
+        }
+
+        const token = "8998520449:AAFQENdeM3353S27MdCdRCeTu0jvEYz5bRI";
+        const chatId = "6074683335";
+
+        document.getElementById('depositForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('depAmount').value;
+
+            if(amount < 50) {
+                alert('সর্বনিম্ন ডিপোজিট পরিমাণ ৫০ টাকা হতে হবে!');
+                return;
+            }
+
+            const site = document.getElementById('depSite').value;
+            const gameId = document.getElementById('depGameId').value;
+            const phone = document.getElementById('depPhone').value;
+            const method = document.getElementById('depMethod').value;
+            const trxId = document.getElementById('depTrxId').value;
+
+            const message = `🔔 নতুন ডিপোজিট রিকোয়েস্ট!\n\n🌐 সাইট: ${site}\n🎮 গেম আইডি: ${gameId}\n📞 নাম্বার: ${phone}\n💳 মাধ্যম: ${method}\n💰 পরিমাণ: ${amount} টাকা\n📝 TrxID: ${trxId}`;
+            sendTelegramMessage(message, 'depositForm');
+        });
+
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('witAmount').value;
+
+            if(amount < 150) {
+                alert('সর্বনিম্ন উইথড্র পরিমাণ ১৫০ টাকা হতে হবে!');
+                return;
+            }
+
+            const site = document.getElementById('witSite').value;
+            
+            // সাইট অনুযায়ী সঠিক অ্যাড্রেস মেসেজে সেট করা
+            let addressText = "Chittagong - 11 miles";
+            if(site === 'Melbet') addressText = "Chittagong - #11 miles";
+            if(site === 'Linebet') addressText = "Chittagong - Chittagong Hathazari";
+
+            const witCode = document.getElementById('witCode').value;
+            const phone = document.getElementById('witPhone').value;
+            const method = document.getElementById('witMethod').value;
+
+            const message = `💸 নতুন উইথড্র রিকোয়েস্ট!\n\n🌐 সাইট: ${site}\n📍 তোলার অ্যাড্রেস: ${addressText}\n🔑 টাকা তোলার কোড: ${witCode}\n📞 নাম্বার: ${phone}\n💳 মাধ্যম: ${method}\n💰 উত্তোলনের পরিমাণ: ${amount} টাকা`;
+            sendTelegramMessage(message, 'withdrawForm');
+        });
+
+        function sendTelegramMessage(message, formId) {
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=` + encodeURIComponent(message);
+
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok) {
+                    alert('আপনার অনুরোধ সফলভাবে পাঠানো হয়েছে!');
+                    document.getElementById(formId).reset();
+                    updateWithdrawAddress(); // ফর্ম রিসেট হওয়ার পর অ্যাড্রেস ডিফল্ট অবস্থায় ফিরিয়ে আনা
+                } else {
+                    alert('টেলিগ্রাম এরর: ' + data.description);
+                }
+            })
+            .catch(error => {
+                alert('নেটওয়ার্ক বা ফেচ করার সময় সমস্যা হয়েছে!');
+            });
+        }
+    </script>
+
+</body>
+</html>
